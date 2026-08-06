@@ -6,7 +6,7 @@ import "./ConveterPage.css";
 import { IoMdClose } from "react-icons/io";
 
 export default function ConverterPage() {
-  const { fileList, removeFile } = useConverterContext();
+  const { fileList, removeConversion, convertFiles } = useConverterContext();
 
   const renderList = () => {
     if (fileList.length === 0) {
@@ -25,16 +25,18 @@ export default function ConverterPage() {
             </tr>
           </thead>
           <tbody>
-            {fileList.map((file, index) => (
+            {fileList.map((convertion, index) => (
               <tr key={index}>
-                <td>{file.name}</td>
-                <td>{file.type}</td>
-                <td>{(file.size / 1024).toFixed(2)} KB</td>
-                <td>Pending</td>
+                <td>{convertion.inputFile.name}</td>
+                <td>{convertion.inputFile.type}</td>
+                <td>{(convertion.inputFile.size / 1024).toFixed(2)} KB</td>
+                <td className={`status ${convertion.status}`}>
+                  {convertion.status}
+                </td>
                 <td>
                   <button
                     className="icon-button"
-                    onClick={() => removeFile(file)}
+                    onClick={() => removeConversion(convertion.id)}
                   >
                     <IoMdClose />
                   </button>
@@ -59,6 +61,11 @@ export default function ConverterPage() {
             />
             <div className="header-actions">
               <AudioFilePicker />
+            </div>
+            <div className="button-container">
+              <button className="convert-button" onClick={convertFiles}>
+                Convert
+              </button>
             </div>
           </div>
           {renderList()}

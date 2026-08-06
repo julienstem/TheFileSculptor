@@ -69,3 +69,20 @@
   background-color: var(--bg-surface, #ffffff);
   z-index: 1;
 }
+
+.status {
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.status.pending {
+  color: var(--status-pending, #ffa500);
+}
+
+.status.completed {
+  color: var(--status-completed, #4caf50);
+}
+
+.status.failed {
+  color: var(--status-failed, #ff0000);
+}

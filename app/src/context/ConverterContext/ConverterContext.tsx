@@ -1,39 +1,88 @@
-import React from "react";
+import React, { createContext, useContext, useState } from "react";
 import type { FileType } from "../../types/fileTypes";
+import { convertAudioFile } from "../../hooks/convertAudio";
+import type { Conversion } from "../../types/Conversion";
 
 interface ConverterContextType {
-  fileList: File[];
+  fileList: Conversion[];
   outputFileType: FileType;
   setOutputFileType: (type: FileType) => void;
   addFile: (file: File) => void;
   clearFiles: () => void;
-  removeFile: (file: File) => void;
+  removeConversion: (id: string) => void;
+  convertFiles: () => Promise<void>;
 }
 
 interface ConverterProviderProps {
   children: React.ReactNode;
 }
 
-const ConverterContext = React.createContext<ConverterContextType | undefined>(
+const ConverterContext = createContext<ConverterContextType | undefined>(
   undefined,
 );
 
 export const ConverterProvider: React.FC<ConverterProviderProps> = ({
   children,
 }) => {
-  const [outputFileType, setOutputFileType] = React.useState<FileType>("Wav");
-  const [fileList, setFileList] = React.useState<File[]>([]);
+  const [outputFileType, setOutputFileType] = useState<FileType>("Wav");
+  const [fileList, setFileList] = useState<Conversion[]>([]);
 
+  // Add file with a unique ID for robust state tracking
   const addFile = (file: File) => {
-    setFileList((prev) => [...prev, file]);
+    const newConversion: Conversion = {
+      id: crypto.randomUUID(),
+      status: "pending",
+      inputFile: file,
+      outputFile: undefined,
+      outputFileType: outputFileType,
+    };
+    setFileList((prev) => [...prev, newConversion]);
   };
 
-  const removeFile = (file: File) => {
-    setFileList((prev) => prev.filter((f) => f !== file));
+  const removeConversion = (id: string) => {
+    setFileList((prev) => prev.filter((item) => item.id !== id));
   };
 
   const clearFiles = () => {
     setFileList([]);
+  };
+
+  // Helper to update a single conversion item safely
+  const updateItem = (id: string, updates: Partial<Conversion>) => {
+    setFileList((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, ...updates } : item)),
+    );
+  };
+
+  const convertFiles = async () => {
+    // Process all pending files in parallel using Promise.all
+    const conversionPromises = fileList.map(async (conversion) => {
+      if (!conversion.inputFile || conversion.status === "completed") {
+        return;
+      }
+
+      // Mark as converting
+      updateItem(conversion.id, { status: "converting" });
+
+      try {
+        const convertedFile = await convertAudioFile(
+          conversion.inputFile,
+          outputFileType,
+        );
+
+        // Update file and status in a single state pass
+        updateItem(conversion.id, {
+          outputFile: convertedFile,
+          outputFileType: outputFileType,
+          status: "completed",
+        });
+      } catch (error) {
+        console.error(`Error converting ${conversion.inputFile.name}:`, error);
+        updateItem(conversion.id, { status: "failed" });
+      }
+    });
+
+    await Promise.all(conversionPromises);
   };
 
   return (
@@ -44,7 +93,8 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
         fileList,
         addFile,
         clearFiles,
-        removeFile,
+        removeConversion,
+        convertFiles,
       }}
     >
       {children}
@@ -53,7 +103,7 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
 };
 
 export const useConverterContext = (): ConverterContextType => {
-  const context = React.useContext(ConverterContext);
+  const context = useContext(ConverterContext);
   if (!context) {
     throw new Error(
       "useConverterContext must be used within a ConverterProvider",
