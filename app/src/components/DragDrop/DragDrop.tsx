@@ -1,10 +1,12 @@
 import { FileUploader } from "react-drag-drop-files";
 import "./DragDrop.css";
 import { FILE_TYPES } from "../../types/fileTypes";
+import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
 
 export default function DragDrop() {
+  const { addFile } = useConverterContext();
   const handleChange = (file: File | File[]) => {
-    console.log(file);
+    (Array.isArray(file) ? file : [file]).forEach(addFile);
   };
   return (
     <div className="drag-drop">
