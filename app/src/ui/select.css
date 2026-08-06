@@ -1,0 +1,20 @@
+select {
+  background-color: var(--select-bg);
+  color: var(--color-text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  padding: 0.2rem;
+  font-size: 0.8rem;
+}
+
+select:hover {
+  background-color: var(--select-hover);
+  border-color: var(--border-medium);
+  cursor: pointer;
+}
+
+select:focus {
+  background-color: var(--select-bg);
+  border-color: var(--border-focus);
+  outline: none;
+}

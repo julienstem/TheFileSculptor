@@ -1,7 +1,12 @@
 import "./App.css";
+import ConverterPage from "./pages/ConverterPage/ConverterPage";
 
 function App() {
-  return <></>;
+  return (
+    <>
+      <ConverterPage />
+    </>
+  );
 }
 
 export default App;
