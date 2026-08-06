@@ -32,15 +32,14 @@
   --color-text-brand: var(--purple-550);
 
   /* Boutons */
-  --btn-primary-bg: var(--purple-550);
-  --btn-primary-hover: var(--purple-600);
-  --btn-primary-active: var(--purple-700);
-  --btn-primary-text: var(--purple-50);
+  --btn-primary-bg: var(--purple-50);
+  --btn-primary-hover: var(--purple-200);
+  --btn-primary-active: var(--purple-300);
+  --btn-primary-text: var(--purple-1000);
 
-  --btn-secondary-bg: var(--purple-100);
-  --btn-secondary-hover: var(--purple-200);
-  --btn-secondary-active: var(--purple-300);
-  --btn-secondary-text: var(--purple-900);
+  --select-bg: var(--purple-50);
+  --select-hover: var(--purple-200);
+  --select-active: var(--purple-300);
 
   --btn-disabled-bg: var(--purple-100);
   --btn-disabled-text: var(--purple-300);
@@ -64,8 +63,8 @@
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  color: var(--color-text-primary);
+  background: var(--bg-app);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -76,9 +75,20 @@
   }
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 #root {
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.highlighted-text {
+  color: var(--color-text-secondary);
+  font-weight: bold;
 }

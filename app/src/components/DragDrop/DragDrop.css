@@ -1,0 +1,41 @@
+.drag-drop {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-surface);
+  padding: 1rem;
+}
+
+.drag-drop-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--border-subtle);
+  border-radius: 8px;
+}
+
+.drag-drop-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.drag-drop-file-uploader {
+  width: 100%;
+  height: 100%;
+}
+
+.drag-drop-content:hover {
+  border-color: var(--border-medium);
+  cursor: pointer;
+}
