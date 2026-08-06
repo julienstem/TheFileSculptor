@@ -11,6 +11,7 @@ interface ConverterContextType {
   clearFiles: () => void;
   removeConversion: (id: string) => void;
   convertFiles: () => Promise<void>;
+  isConverting: boolean;
 }
 
 interface ConverterProviderProps {
@@ -26,6 +27,7 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
 }) => {
   const [outputFileType, setOutputFileType] = useState<FileType>("Wav");
   const [fileList, setFileList] = useState<Conversion[]>([]);
+  const [isConverting, setIsConverting] = useState<boolean>(false);
 
   // Add file with a unique ID for robust state tracking
   const addFile = (file: File) => {
@@ -55,6 +57,7 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
   };
 
   const convertFiles = async () => {
+    setIsConverting(true);
     // Process all pending files in parallel using Promise.all
     const conversionPromises = fileList.map(async (conversion) => {
       if (!conversion.inputFile || conversion.status === "completed") {
@@ -83,6 +86,7 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
     });
 
     await Promise.all(conversionPromises);
+    setIsConverting(false);
   };
 
   return (
@@ -95,6 +99,7 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
         clearFiles,
         removeConversion,
         convertFiles,
+        isConverting,
       }}
     >
       {children}

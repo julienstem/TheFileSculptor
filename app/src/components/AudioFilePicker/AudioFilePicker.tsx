@@ -3,11 +3,18 @@ import { FILE_TYPES } from "../../types/fileTypes";
 import { IoMdAdd } from "react-icons/io";
 import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
 
-export const AudioFilePicker: React.FC = () => {
+interface AudioFilePickerProps {
+  disabled?: boolean;
+}
+
+export const AudioFilePicker: React.FC<AudioFilePickerProps> = ({
+  disabled,
+}) => {
   const { addFile } = useConverterContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleContainerClick = () => {
+    if (disabled) return;
     fileInputRef.current?.click();
   };
 

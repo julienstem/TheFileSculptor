@@ -6,7 +6,8 @@ import "./ConveterPage.css";
 import { IoMdClose } from "react-icons/io";
 
 export default function ConverterPage() {
-  const { fileList, removeConversion, convertFiles } = useConverterContext();
+  const { fileList, removeConversion, convertFiles, isConverting } =
+    useConverterContext();
 
   const renderList = () => {
     if (fileList.length === 0) {
@@ -58,13 +59,18 @@ export default function ConverterPage() {
             <TypeSelector
               text="Convert to:"
               onChange={(value) => setOutputFileType(value)}
+              disabled={isConverting}
             />
             <div className="header-actions">
-              <AudioFilePicker />
+              <AudioFilePicker disabled={isConverting} />
             </div>
             <div className="button-container">
-              <button className="convert-button" onClick={convertFiles}>
-                Convert
+              <button
+                className="convert-button"
+                onClick={convertFiles}
+                disabled={isConverting}
+              >
+                {isConverting ? "Converting..." : "Convert"}
               </button>
             </div>
           </div>
