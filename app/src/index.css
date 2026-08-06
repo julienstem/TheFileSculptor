@@ -1,0 +1,84 @@
+:root {
+  --purple-50: #faf5ff;
+  --purple-100: #f3e8ff;
+  --purple-150: #e9d5ff;
+  --purple-200: #ddd6fe;
+  --purple-250: #d8b4fe;
+  --purple-300: #c084fc;
+  --purple-350: #b794f4;
+  --purple-400: #a855f7;
+  --purple-450: #9333ea;
+  --purple-500: #8b5cf6;
+  --purple-550: #7c3aed;
+  --purple-600: #6d28d9;
+  --purple-650: #6b21a8;
+  --purple-700: #5b21b6;
+  --purple-750: #4c1d95;
+  --purple-800: #3b0764;
+  --purple-850: #2e1065;
+  --purple-900: #240046;
+  --purple-950: #1a0033;
+  --purple-1000: #10002b;
+
+  /* ==========================================================================
+     VARIABLES SÉMANTIQUES (UI TOKENS)
+     ========================================================================== */
+
+  /* Textes */
+  --color-text-primary: var(--purple-1000);
+  --color-text-secondary: var(--purple-750);
+  --color-text-muted: var(--purple-400);
+  --color-text-inverse: var(--purple-50);
+  --color-text-brand: var(--purple-550);
+
+  /* Boutons */
+  --btn-primary-bg: var(--purple-550);
+  --btn-primary-hover: var(--purple-600);
+  --btn-primary-active: var(--purple-700);
+  --btn-primary-text: var(--purple-50);
+
+  --btn-secondary-bg: var(--purple-100);
+  --btn-secondary-hover: var(--purple-200);
+  --btn-secondary-active: var(--purple-300);
+  --btn-secondary-text: var(--purple-900);
+
+  --btn-disabled-bg: var(--purple-100);
+  --btn-disabled-text: var(--purple-300);
+
+  /* Conteneurs & Surfaces */
+  --bg-app: var(--purple-50);
+  --bg-surface: #ffffff;
+  --bg-surface-subtle: var(--purple-100);
+  --bg-surface-active: var(--purple-150);
+  --bg-card: var(--purple-50);
+
+  /* Bordures */
+  --border-subtle: var(--purple-200);
+  --border-medium: var(--purple-350);
+  --border-focus: var(--purple-550);
+  --border-active: var(--purple-600);
+  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
