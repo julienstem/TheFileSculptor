@@ -14,7 +14,6 @@ export const AudioFilePicker: React.FC<AudioFilePickerProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleContainerClick = () => {
-    if (disabled) return;
     fileInputRef.current?.click();
   };
 
@@ -45,9 +44,9 @@ export const AudioFilePicker: React.FC<AudioFilePickerProps> = ({
         style={{ display: "none" }}
       />
 
-      <div className="icon-button" onClick={handleContainerClick}>
+      <button className="icon-button" onClick={handleContainerClick} disabled={disabled}>
         <IoMdAdd />
-      </div>
+      </button>
     </div>
   );
 };

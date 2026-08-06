@@ -4,10 +4,22 @@ import { FILE_TYPES } from "../../types/fileTypes";
 import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
 
 export default function DragDrop() {
-  const { addFile } = useConverterContext();
-  const handleChange = (file: File | File[]) => {
-    (Array.isArray(file) ? file : [file]).forEach(addFile);
+  const { addFile, outputFileType } = useConverterContext();
+
+  const handleChange = (incomingFiles: File | FileList | File[]) => {
+    let filesArray: File[] = [];
+
+    if (incomingFiles instanceof FileList) {
+      filesArray = Array.from(incomingFiles);
+    } else if (Array.isArray(incomingFiles)) {
+      filesArray = incomingFiles;
+    } else if (incomingFiles instanceof File) {
+      filesArray = [incomingFiles];
+    }
+
+    filesArray.forEach((file) => addFile(file));
   };
+
   return (
     <div className="drag-drop">
       <div className="drag-drop-container">
@@ -15,9 +27,11 @@ export default function DragDrop() {
           classes="drag-drop-file-uploader"
           handleChange={handleChange}
           types={[...FILE_TYPES]}
+          multiple={true}
         >
           <div className="drag-drop-content">
-            <p>Drag and drop or click to select files to convert.</p>
+            <p>Drag and drop or click to select files to convert to </p>
+            <p>{outputFileType}</p>
           </div>
         </FileUploader>
       </div>

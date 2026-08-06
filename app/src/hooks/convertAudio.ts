@@ -2,20 +2,37 @@ import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile, toBlobURL } from "@ffmpeg/util";
 import { type FileType } from "../types/fileTypes";
 
-let ffmpeg: FFmpeg | null = null;
+let ffmpegInstance: FFmpeg | null = null;
+let loadPromise: Promise<FFmpeg> | null = null;
 
-export const loadFFmpeg = async (): Promise<FFmpeg> => {
-  if (ffmpeg) return ffmpeg;
+let executionQueue: Promise<any> = Promise.resolve();
 
-  ffmpeg = new FFmpeg();
+export const loadFFmpeg = (): Promise<FFmpeg> => {
+  if (ffmpegInstance && ffmpegInstance.loaded) {
+    return Promise.resolve(ffmpegInstance);
+  }
 
-  const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm";
-  await ffmpeg.load({
-    coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
-    wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
-  });
+  if (loadPromise) {
+    return loadPromise;
+  }
 
-  return ffmpeg;
+  loadPromise = (async () => {
+    const ffmpeg = new FFmpeg();
+    const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm";
+
+    await ffmpeg.load({
+      coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
+      wasmURL: await toBlobURL(
+        `${baseURL}/ffmpeg-core.wasm`,
+        "application/wasm",
+      ),
+    });
+
+    ffmpegInstance = ffmpeg;
+    return ffmpeg;
+  })();
+
+  return loadPromise;
 };
 
 export const convertAudioFile = async (
@@ -23,53 +40,57 @@ export const convertAudioFile = async (
   targetFormat: FileType,
   onProgress?: (progress: number) => void,
 ): Promise<File> => {
-  const ffmpegInstance = await loadFFmpeg();
+  const ffmpeg = await loadFFmpeg();
 
-  // 1. Create a safe progress handler and attach it
-  const handleProgress = ({ progress }: { progress: number }) => {
-    if (onProgress) {
-      onProgress(Math.round(progress * 100));
-    }
-  };
-  ffmpegInstance.on("progress", handleProgress);
+  // On enchaîne la conversion dans la file d'attente (séquentielle)
+  const task = async () => {
+    const handleProgress = ({ progress }: { progress: number }) => {
+      if (onProgress) {
+        onProgress(Math.round(progress * 100));
+      }
+    };
 
-  const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-  const inputExt = file.name.split(".").pop() || "wav";
-  const outputExt = targetFormat.toLowerCase();
+    ffmpeg.on("progress", handleProgress);
 
-  const internalInputName = `input_${uniqueId}.${inputExt}`;
-  const internalOutputName = `output_${uniqueId}.${outputExt}`;
+    const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const inputExt = file.name.split(".").pop() || "wav";
+    const outputExt = targetFormat.toLowerCase();
 
-  const baseName =
-    file.name.substring(0, file.name.lastIndexOf(".")) || file.name;
-  const userOutputFileName = `${baseName}.${outputExt}`;
+    const internalInputName = `input_${uniqueId}.${inputExt}`;
+    const internalOutputName = `output_${uniqueId}.${outputExt}`;
 
-  try {
-    await ffmpegInstance.writeFile(internalInputName, await fetchFile(file));
-
-    await ffmpegInstance.exec(["-i", internalInputName, internalOutputName]);
-
-    const data = (await ffmpegInstance.readFile(
-      internalOutputName,
-    )) as Uint8Array;
-
-    const standardBuffer = data.buffer.slice(
-      data.byteOffset,
-      data.byteOffset + data.byteLength,
-    ) as ArrayBuffer;
-
-    const blob = new Blob([standardBuffer], { type: `audio/${outputExt}` });
-
-    return new File([blob], userOutputFileName, { type: `audio/${outputExt}` });
-  } finally {
-    ffmpegInstance.off("progress", handleProgress);
-    console.log("Cleaning up temporary files in FFmpeg.");
+    const baseName =
+      file.name.substring(0, file.name.lastIndexOf(".")) || file.name;
+    const userOutputFileName = `${baseName}.${outputExt}`;
 
     try {
-      await ffmpegInstance.deleteFile(internalInputName);
-      await ffmpegInstance.deleteFile(internalOutputName);
-    } catch {
-      console.warn("Failed to clean up temporary files in FFmpeg.");
+      await ffmpeg.writeFile(internalInputName, await fetchFile(file));
+      await ffmpeg.exec(["-i", internalInputName, internalOutputName]);
+
+      const data = (await ffmpeg.readFile(internalOutputName)) as Uint8Array;
+
+      const standardBuffer = data.buffer.slice(
+        data.byteOffset,
+        data.byteOffset + data.byteLength,
+      ) as ArrayBuffer;
+
+      const blob = new Blob([standardBuffer], { type: `audio/${outputExt}` });
+      return new File([blob], userOutputFileName, {
+        type: `audio/${outputExt}`,
+      });
+    } finally {
+      ffmpeg.off("progress", handleProgress);
+
+      try {
+        await ffmpeg.deleteFile(internalInputName);
+        await ffmpeg.deleteFile(internalOutputName);
+      } catch {
+        console.warn("Failed to clean up temporary files in FFmpeg FS.");
+      }
     }
-  }
+  };
+
+  const resultPromise = executionQueue.then(task);
+  executionQueue = resultPromise.catch(() => {});
+  return resultPromise;
 };

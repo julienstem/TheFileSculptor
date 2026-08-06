@@ -2,12 +2,20 @@ import { AudioFilePicker } from "../../components/AudioFilePicker/AudioFilePicke
 import DragDrop from "../../components/DragDrop/DragDrop";
 import TypeSelector from "../../components/TypeSelector/TypeSelector";
 import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
-import "./ConveterPage.css";
+import "./ConverterPage.css";
 import { IoMdClose } from "react-icons/io";
 
 export default function ConverterPage() {
-  const { fileList, removeConversion, convertFiles, isConverting } =
-    useConverterContext();
+  const {
+    fileList,
+    removeConversion,
+    convertFiles,
+    isConverting,
+    isDownloading,
+    downloadConvertedFiles,
+  } = useConverterContext();
+
+  const disabled = isConverting || isDownloading;
 
   const renderList = () => {
     if (fileList.length === 0) {
@@ -53,24 +61,36 @@ export default function ConverterPage() {
   return (
     <div className="converter-page">
       <div className="file-converter-container">
-        <h1>Converter Page</h1>
+        <h1>The File Sculptor</h1>
         <div className="file-converter-manager">
           <div className="file-selector">
             <TypeSelector
               text="Convert to:"
               onChange={(value) => setOutputFileType(value)}
-              disabled={isConverting}
+              disabled={disabled}
             />
             <div className="header-actions">
-              <AudioFilePicker disabled={isConverting} />
+              <AudioFilePicker disabled={disabled} />
             </div>
             <div className="button-container">
               <button
                 className="convert-button"
                 onClick={convertFiles}
-                disabled={isConverting}
+                disabled={disabled}
               >
                 {isConverting ? "Converting..." : "Convert"}
+              </button>
+              <button
+                className="download-button"
+                onClick={downloadConvertedFiles}
+                disabled={
+                  disabled ||
+                  fileList.filter(
+                    (conversion) => conversion.status === "completed",
+                  ).length === 0
+                }
+              >
+                {isDownloading ? "Downloading..." : "Download"}
               </button>
             </div>
           </div>

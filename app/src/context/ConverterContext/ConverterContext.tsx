@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
-import type { FileType } from "../../types/fileTypes";
+import { FILE_TYPES, type FileType } from "../../types/fileTypes";
 import { convertAudioFile } from "../../hooks/convertAudio";
 import type { Conversion } from "../../types/Conversion";
+import { useZipDownload } from "../../hooks/useZipDownload";
 
 interface ConverterContextType {
   fileList: Conversion[];
@@ -11,7 +12,9 @@ interface ConverterContextType {
   clearFiles: () => void;
   removeConversion: (id: string) => void;
   convertFiles: () => Promise<void>;
+  downloadConvertedFiles: () => void;
   isConverting: boolean;
+  isDownloading: boolean;
 }
 
 interface ConverterProviderProps {
@@ -25,11 +28,13 @@ const ConverterContext = createContext<ConverterContextType | undefined>(
 export const ConverterProvider: React.FC<ConverterProviderProps> = ({
   children,
 }) => {
-  const [outputFileType, setOutputFileType] = useState<FileType>("Wav");
+  const [outputFileType, setOutputFileType] = useState<FileType>(FILE_TYPES[0]);
   const [fileList, setFileList] = useState<Conversion[]>([]);
   const [isConverting, setIsConverting] = useState<boolean>(false);
+  const [isDownloading, setIsDownloading] = useState<boolean>(false);
 
-  // Add file with a unique ID for robust state tracking
+  const { downloadZip } = useZipDownload();
+
   const addFile = (file: File) => {
     const newConversion: Conversion = {
       id: crypto.randomUUID(),
@@ -58,13 +63,15 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
 
   const convertFiles = async () => {
     setIsConverting(true);
-    // Process all pending files in parallel using Promise.all
     const conversionPromises = fileList.map(async (conversion) => {
-      if (!conversion.inputFile || conversion.status === "completed") {
+      if (
+        !conversion.inputFile ||
+        (conversion.status === "completed" &&
+          conversion.outputFileType === outputFileType)
+      ) {
         return;
       }
 
-      // Mark as converting
       updateItem(conversion.id, { status: "converting" });
 
       try {
@@ -73,7 +80,6 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
           outputFileType,
         );
 
-        // Update file and status in a single state pass
         updateItem(conversion.id, {
           outputFile: convertedFile,
           outputFileType: outputFileType,
@@ -89,6 +95,24 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
     setIsConverting(false);
   };
 
+  const downloadConvertedFiles = async () => {
+    setIsDownloading(true);
+    const completedFiles = fileList.filter(
+      (conversion) =>
+        conversion.status === "completed" && conversion.outputFile,
+    );
+    if (completedFiles.length === 0) {
+      console.warn("No completed files available for download.");
+      setIsDownloading(false);
+      return;
+    }
+    await downloadZip(
+      completedFiles.map((conversion) => conversion.outputFile!),
+      "converted_files.zip",
+    );
+    setIsDownloading(false);
+  };
+
   return (
     <ConverterContext.Provider
       value={{
@@ -100,6 +124,8 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
         removeConversion,
         convertFiles,
         isConverting,
+        isDownloading,
+        downloadConvertedFiles,
       }}
     >
       {children}
