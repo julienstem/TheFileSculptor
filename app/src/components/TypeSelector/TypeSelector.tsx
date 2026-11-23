@@ -22,7 +22,7 @@ export default function TypeSelector({
         disabled={disabled}
       >
         {fileTypes.map((type) => (
-          <option key={type} value={type}>
+          <option className="form-option" key={type} value={type}>
             {type}
           </option>
         ))}

@@ -11,8 +11,8 @@
 }
 
 .icon-button:hover {
-  background-color: var(--btn-hover-bg);
-  border: 1px solid var(--border-medium);
+  background-color: var(--btn-primary-hover);
+  border: 1px solid var(--btn-primary-hover);
   border-radius: 100%;
 }
 

@@ -34,7 +34,7 @@
 
   /* Boutons */
   --btn-primary-bg: var(--purple-50);
-  --btn-primary-hover: var(--purple-200);
+  --btn-primary-hover: var(--purple-100);
   --btn-primary-active: var(--purple-300);
   --btn-primary-text: var(--purple-1000);
 
