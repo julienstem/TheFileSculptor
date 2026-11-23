@@ -1,6 +1,6 @@
 .form-label {
   font-size: 14px;
-  color: var(--bg-app);
+  color: var(--color-text-primary);
 }
 
 .type-selector {

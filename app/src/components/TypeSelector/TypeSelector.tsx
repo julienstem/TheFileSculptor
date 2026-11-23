@@ -1,32 +1,35 @@
+import { useMemo } from "react";
+import { Dropdown, type DropdownOption } from "../Dropdown/dropdown";
 import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
 import { type FileType } from "../../types/fileTypes";
-import "./TypeSelector.css";
 
 interface TypeSelectorProps {
   onChange: (value: FileType) => void;
+  value?: FileType;
   text?: string;
   disabled?: boolean;
 }
 
 export default function TypeSelector({
   onChange,
+  value,
   text,
-  disabled,
+  disabled = false,
 }: TypeSelectorProps) {
   const { availableFileTypes: fileTypes } = useConverterContext();
+
+  const options = useMemo<DropdownOption<FileType>[]>(
+    () => fileTypes.map((type) => ({ value: type, label: type })),
+    [fileTypes],
+  );
+
   return (
-    <div className="type-selector">
-      {text && <label className="form-label">{text}</label>}
-      <select
-        onChange={(e) => onChange?.(e.target.value as FileType)}
-        disabled={disabled}
-      >
-        {fileTypes.map((type) => (
-          <option className="form-option" key={type} value={type}>
-            {type}
-          </option>
-        ))}
-      </select>
-    </div>
+    <Dropdown<FileType>
+      options={options}
+      value={value}
+      onChange={onChange}
+      label={text}
+      disabled={disabled}
+    />
   );
 }

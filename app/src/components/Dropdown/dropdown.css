@@ -1,0 +1,112 @@
+.ui-dropdown-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ui-dropdown-label {
+  font-size: 14px;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.ui-dropdown {
+  position: relative;
+  min-width: 130px;
+}
+
+.ui-dropdown-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  background-color: var(--select-bg);
+  border: 1px solid var(--border-medium);
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.ui-dropdown-trigger:hover:not(:disabled) {
+  background-color: var(--select-hover);
+  border-color: var(--border-focus);
+}
+
+.ui-dropdown-trigger:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.ui-dropdown-trigger:disabled {
+  background-color: var(--btn-disabled-bg);
+  color: var(--btn-disabled-text);
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.ui-dropdown-chevron {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  transition: transform 0.15s ease;
+}
+
+.ui-dropdown-chevron.open {
+  transform: rotate(180deg);
+}
+
+.ui-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(16, 0, 43, 0.14);
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.ui-dropdown-option {
+  padding: 0.4rem 0.65rem;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.ui-dropdown-option:hover:not(.disabled) {
+  background-color: var(--select-hover);
+  color: var(--color-text-primary);
+}
+
+.ui-dropdown-option.selected {
+  background-color: var(--bg-surface-active);
+  color: var(--color-text-active);
+  font-weight: 600;
+}
+
+.ui-dropdown-option.selected:hover:not(.disabled) {
+  background-color: var(--select-active);
+  color: var(--color-text-primary);
+}
+
+.ui-dropdown-option.disabled {
+  color: var(--btn-disabled-text);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
