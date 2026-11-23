@@ -43,17 +43,6 @@ body,
   flex-shrink: 0;
 }
 
-.file-selector {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.5rem 1rem;
-  width: 100%;
-  background-color: var(--border-active);
-}
-
 .button-container {
   display: flex;
   flex-wrap: wrap;

@@ -6,6 +6,17 @@
   flex: 1;
   min-height: 0;
   border: 2px solid var(--border-active);
-  border-radius: 20px;
+  border-radius: 0 20px 20px 20px;
   overflow: hidden;
+}
+
+.file-selector {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  background-color: var(--border-active);
 }

@@ -27,6 +27,7 @@
   /* Textes */
   --color-text-primary: var(--purple-1000);
   --color-text-secondary: var(--purple-750);
+  --color-text-active: var(--purple-600);
   --color-text-muted: var(--purple-400);
   --color-text-inverse: var(--purple-50);
   --color-text-brand: var(--purple-550);

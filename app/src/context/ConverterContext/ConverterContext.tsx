@@ -6,6 +6,7 @@ import {
 } from "../../types/fileTypes";
 import type { Conversion } from "../../types/Conversion";
 import { useZipDownload } from "../../hooks/useZipDownload";
+import { convertFile } from "../../hooks/convertFile";
 
 interface ConverterContextType {
   fileList: Conversion[];
@@ -80,10 +81,6 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
     );
   };
 
-  const convertFile = async (file: File, target: FileType): Promise<File> => {
-    return convertFile(file, target);
-  };
-
   const convertFiles = async () => {
     setIsConverting(true);
     const conversionPromises = fileList.map(async (conversion) => {
@@ -100,6 +97,7 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
       try {
         const convertedFile = await convertFile(
           conversion.inputFile,
+          currentConversionType,
           outputFileType,
         );
 

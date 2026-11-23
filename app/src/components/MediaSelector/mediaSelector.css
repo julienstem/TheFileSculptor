@@ -1,0 +1,12 @@
+.conversion-type-button {
+  background: none;
+  color: var(--color-text-primary);
+  border-radius: 8px 8px 0 0;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+.conversion-type-button.selected {
+  background-color: var(--border-active);
+  color: white;
+}
