@@ -5,6 +5,7 @@ import RenderList from "../RenderList/RenderList";
 import "./fileConverterManager.css";
 export default function FileConverterManager() {
   const {
+    outputFileType,
     fileList,
     convertFiles,
     setOutputFileType,
@@ -22,6 +23,7 @@ export default function FileConverterManager() {
           text="Convert to:"
           onChange={(value) => setOutputFileType(value)}
           disabled={disabled}
+          value={outputFileType}
         />
         <div className="header-actions">
           <FilePicker disabled={disabled} />
