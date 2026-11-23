@@ -1,11 +1,10 @@
 import FileConverterManager from "../FileConverterManager/fileConverterManager";
-import RenderList from "../RenderList/RenderList";
+import "./converter.css";
 
 export default function Converter() {
   return (
     <div className="converter">
       <FileConverterManager />
-      <RenderList />
     </div>
   );
 }

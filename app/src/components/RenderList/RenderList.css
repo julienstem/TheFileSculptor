@@ -1,0 +1,29 @@
+.file-converter-manager > *:not(.table-scroll-container) {
+  flex-shrink: 0;
+}
+
+.table-scroll-container {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.file-list-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.file-list-table th,
+.file-list-table td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.file-list-table th {
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-surface, #ffffff);
+  z-index: 1;
+}

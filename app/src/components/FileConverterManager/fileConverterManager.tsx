@@ -1,7 +1,8 @@
 import { FilePicker } from "../FilePicker/FilePicker";
 import TypeSelector from "../../components/TypeSelector/TypeSelector";
 import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
-
+import RenderList from "../RenderList/RenderList";
+import "./fileConverterManager.css";
 export default function FileConverterManager() {
   const {
     fileList,
@@ -46,6 +47,7 @@ export default function FileConverterManager() {
           </button>
         </div>
       </div>
+      <RenderList />
     </div>
   );
 }

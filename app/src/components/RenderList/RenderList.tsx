@@ -1,8 +1,9 @@
 import { IoMdClose } from "react-icons/io";
 import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
 import DragDrop from "../DragDrop/DragDrop";
+import "./RenderList.css";
 
-export default function renderList() {
+export default function RenderList() {
   const { fileList, removeConversion } = useConverterContext();
   if (fileList.length === 0) {
     return <DragDrop />;
