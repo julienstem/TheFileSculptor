@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState } from "react";
-import { FILE_TYPES, type FileType } from "../../types/fileTypes";
-import { convertAudioFile } from "../../hooks/convertAudio";
+import {
+  CONVERSTION_TYPES,
+  type ConversionType,
+  type FileType,
+} from "../../types/fileTypes";
 import type { Conversion } from "../../types/Conversion";
 import { useZipDownload } from "../../hooks/useZipDownload";
 
@@ -15,6 +18,9 @@ interface ConverterContextType {
   downloadConvertedFiles: () => void;
   isConverting: boolean;
   isDownloading: boolean;
+  currentConversionType: ConversionType;
+  changeCurrentConversionType: (type: ConversionType) => void;
+  availableFileTypes: readonly FileType[];
 }
 
 interface ConverterProviderProps {
@@ -28,12 +34,19 @@ const ConverterContext = createContext<ConverterContextType | undefined>(
 export const ConverterProvider: React.FC<ConverterProviderProps> = ({
   children,
 }) => {
-  const [outputFileType, setOutputFileType] = useState<FileType>(FILE_TYPES[0]);
+  const [currentConversionType, setCurrentConversionType] =
+    useState<ConversionType>("Music");
+  const [outputFileType, setOutputFileType] = useState<FileType>(
+    CONVERSTION_TYPES["Music"][0],
+  );
   const [fileList, setFileList] = useState<Conversion[]>([]);
   const [isConverting, setIsConverting] = useState<boolean>(false);
   const [isDownloading, setIsDownloading] = useState<boolean>(false);
 
   const { downloadZip } = useZipDownload();
+
+  const availableFileTypes: readonly FileType[] =
+    CONVERSTION_TYPES[currentConversionType];
 
   const addFile = (file: File) => {
     const newConversion: Conversion = {
@@ -54,11 +67,21 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
     setFileList([]);
   };
 
-  // Helper to update a single conversion item safely
+  const changeCurrentConversionType = (type: ConversionType) => {
+    if (type === currentConversionType) return;
+    setCurrentConversionType(type);
+    setOutputFileType(CONVERSTION_TYPES[type][0]);
+    setFileList([]);
+  };
+
   const updateItem = (id: string, updates: Partial<Conversion>) => {
     setFileList((prev) =>
       prev.map((item) => (item.id === id ? { ...item, ...updates } : item)),
     );
+  };
+
+  const convertFile = async (file: File, target: FileType): Promise<File> => {
+    return convertFile(file, target);
   };
 
   const convertFiles = async () => {
@@ -75,7 +98,7 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
       updateItem(conversion.id, { status: "converting" });
 
       try {
-        const convertedFile = await convertAudioFile(
+        const convertedFile = await convertFile(
           conversion.inputFile,
           outputFileType,
         );
@@ -126,6 +149,9 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
         isConverting,
         isDownloading,
         downloadConvertedFiles,
+        currentConversionType,
+        changeCurrentConversionType,
+        availableFileTypes,
       }}
     >
       {children}

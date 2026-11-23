@@ -1,4 +1,5 @@
-import { FILE_TYPES, type FileType } from "../../types/fileTypes";
+import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
+import { type FileType } from "../../types/fileTypes";
 import "./TypeSelector.css";
 
 interface TypeSelectorProps {
@@ -12,6 +13,7 @@ export default function TypeSelector({
   text,
   disabled,
 }: TypeSelectorProps) {
+  const { availableFileTypes: fileTypes } = useConverterContext();
   return (
     <div className="type-selector">
       {text && <label className="form-label">{text}</label>}
@@ -19,7 +21,7 @@ export default function TypeSelector({
         onChange={(e) => onChange?.(e.target.value as FileType)}
         disabled={disabled}
       >
-        {Object.values(FILE_TYPES).map((type) => (
+        {fileTypes.map((type) => (
           <option key={type} value={type}>
             {type}
           </option>
