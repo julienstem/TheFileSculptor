@@ -1,4 +1,21 @@
 :root {
+  /* ==========================================================================
+     1. PALETTES BRUTES (Neutres + Violet de marque)
+     ========================================================================== */
+  --gray-50: #fafafa;
+  --gray-100: #f4f4f5;
+  --gray-200: #e4e4e7;
+  --gray-300: #d4d4d8;
+  --gray-400: #a1a1aa;
+  --gray-500: #71717a;
+  --gray-600: #52525b;
+  --gray-700: #3f3f46;
+  --gray-800: #27272a;
+  --gray-850: #1f1f23;
+  --gray-900: #18181b;
+  --gray-950: #111113;
+  --gray-1000: #09090b;
+
   --purple-50: #faf5ff;
   --purple-100: #f3e8ff;
   --purple-150: #e9d5ff;
@@ -21,59 +38,105 @@
   --purple-1000: #10002b;
 
   /* ==========================================================================
-     VARIABLES SÉMANTIQUES (UI TOKENS)
+     2. VARIABLES SÉMANTIQUES — THÈME CLAIR (Par défaut)
      ========================================================================== */
-
   /* Textes */
-  --color-text-primary: var(--purple-1000);
-  --color-text-secondary: var(--purple-750);
+  --color-text-primary: var(--gray-950);
+  --color-text-secondary: var(--gray-600);
   --color-text-active: var(--purple-600);
-  --color-text-muted: var(--purple-400);
-  --color-text-inverse: var(--purple-50);
-  --color-text-brand: var(--purple-550);
+  --color-text-muted: var(--gray-400);
+  --color-text-inverse: var(--gray-50);
+  --color-text-brand: var(--purple-600);
 
-  /* Boutons */
-  --btn-primary-bg: var(--purple-50);
-  --btn-primary-hover: var(--purple-100);
-  --btn-primary-active: var(--purple-300);
-  --btn-primary-text: var(--purple-1000);
+  /* Boutons & Inputs */
+  --btn-primary-bg: var(--gray-100);
+  --btn-primary-hover: var(--gray-200);
+  --btn-primary-active: var(--purple-150);
+  --btn-primary-text: var(--gray-950);
 
-  --select-bg: var(--purple-50);
-  --select-hover: var(--purple-200);
-  --select-active: var(--purple-300);
+  --select-bg: var(--gray-50);
+  --select-hover: var(--gray-100);
+  --select-active: var(--purple-100);
 
-  --btn-disabled-bg: var(--purple-100);
-  --btn-disabled-text: var(--purple-300);
+  --btn-disabled-bg: var(--gray-100);
+  --btn-disabled-text: var(--gray-400);
 
   /* Conteneurs & Surfaces */
-  --bg-app: var(--purple-50);
+  --bg-app: var(--gray-50);
   --bg-surface: #ffffff;
-  --bg-surface-subtle: var(--purple-100);
-  --bg-surface-active: var(--purple-150);
-  --bg-card: var(--purple-50);
+  --bg-surface-subtle: var(--gray-100);
+  --bg-surface-active: var(--purple-50);
+  --bg-card: #ffffff;
 
   /* Bordures */
-  --border-subtle: var(--purple-200);
-  --border-medium: var(--purple-350);
+  --border-subtle: var(--gray-200);
+  --border-medium: var(--gray-300);
   --border-focus: var(--purple-550);
   --border-active: var(--purple-600);
+
+  /* Typographie & Config globale */
   --sans: system-ui, "Segoe UI", Roboto, sans-serif;
   --heading: system-ui, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
-  color-scheme: light dark;
+  color-scheme: light;
   color: var(--color-text-primary);
   background: var(--bg-app);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 
   @media (max-width: 1024px) {
     font-size: 16px;
   }
+}
+
+/* ==========================================================================
+   3. VARIABLES SÉMANTIQUES — THÈME SOMBRE
+   ========================================================================== */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Textes */
+  --color-text-primary: var(--gray-50);
+  --color-text-secondary: var(--gray-400);
+  --color-text-active: var(--purple-300);
+  --color-text-muted: var(--gray-500);
+  --color-text-inverse: var(--gray-1000);
+  --color-text-brand: var(--purple-400);
+
+  /* Boutons & Inputs */
+  --btn-primary-bg: var(--gray-850);
+  --btn-primary-hover: var(--gray-800);
+  --btn-primary-active: var(--purple-900);
+  --btn-primary-text: var(--gray-50);
+
+  --select-bg: var(--gray-900);
+  --select-hover: var(--gray-850);
+  --select-active: var(--purple-950);
+
+  --btn-disabled-bg: var(--gray-900);
+  --btn-disabled-text: var(--gray-600);
+
+  /* Conteneurs & Surfaces */
+  --bg-app: var(--gray-1000);
+  --bg-surface: var(--gray-950);
+  --bg-surface-subtle: var(--gray-900);
+  --bg-surface-active: var(--purple-950);
+  --bg-card: var(--gray-900);
+
+  /* Bordures */
+  --border-subtle: var(--gray-850);
+  --border-medium: var(--gray-800);
+  --border-strong: var(--gray-700);
+  --border-focus: var(--purple-450);
+  --border-active: var(--purple-650);
 }
 
 *,
