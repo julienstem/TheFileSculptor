@@ -6,7 +6,11 @@ import "./RenderList.css";
 export default function RenderList() {
   const { fileList, removeConversion } = useConverterContext();
   if (fileList.length === 0) {
-    return <DragDrop />;
+    return (
+      <div className="table-scroll-container">
+        <DragDrop />
+      </div>
+    );
   }
   return (
     <div className="table-scroll-container">
