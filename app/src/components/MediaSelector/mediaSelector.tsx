@@ -1,8 +1,10 @@
 import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
 import { CONVERSION_TYPE_LIST } from "../../types/fileTypes";
 import "./mediaSelector.css";
+import { useTranslation } from "react-i18next";
 
 export default function MediaSelector() {
+  const { t } = useTranslation();
   const { currentConversionType, changeCurrentConversionType } =
     useConverterContext();
   return (
@@ -16,7 +18,7 @@ export default function MediaSelector() {
           }
           onClick={() => changeCurrentConversionType(type)}
         >
-          {type}
+          {t(`mediaSelector.${type}`)}
         </button>
       ))}
     </div>

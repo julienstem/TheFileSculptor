@@ -36,9 +36,9 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
   children,
 }) => {
   const [currentConversionType, setCurrentConversionType] =
-    useState<ConversionType>("Music");
+    useState<ConversionType>("Audio");
   const [outputFileType, setOutputFileType] = useState<FileType>(
-    CONVERSTION_TYPES["Music"][0],
+    CONVERSTION_TYPES["Audio"][0],
   );
   const [fileList, setFileList] = useState<Conversion[]>([]);
   const [isConverting, setIsConverting] = useState<boolean>(false);

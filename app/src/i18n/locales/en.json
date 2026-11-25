@@ -1,0 +1,21 @@
+{
+  "dragDrop": {
+    "prompt": "Drag and drop or click to select files to convert to"
+  },
+  "mediaSelector": {
+    "Image": "Image",
+    "Video": "Video",
+    "Audio": "Audio"
+  },
+  "typeSelector": {
+    "convertTo": "Convert to"
+  },
+  "convertButton": {
+    "convert": "Convert",
+    "converting": "Converting..."
+  },
+  "downloadButton": {
+    "download": "Download",
+    "downloading": "Downloading..."
+  }
+}

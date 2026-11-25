@@ -69,7 +69,7 @@ const getFFmpegArgs = (
   output: string,
 ): string[] => {
   switch (type) {
-    case "Music":
+    case "Audio":
       return ["-i", input, "-vn", output]; // -vn : ignore la pochette d'album
 
     case "Image":

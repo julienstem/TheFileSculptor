@@ -1,5 +1,5 @@
 export const CONVERSTION_TYPES = {
-  Music: ["Flac", "Wav", "Mp3", "Aac", "Ogg", "M4a"],
+  Audio: ["Flac", "Wav", "Mp3", "Aac", "Ogg", "M4a"],
   Image: ["Jpg", "Png", "Gif", "Bmp", "Tiff", "Webp"],
   Video: ["Mp4", "Webm", "Avi", "Mov", "Mkv"],
 } as const;

@@ -3,7 +3,10 @@ import TypeSelector from "../../components/TypeSelector/TypeSelector";
 import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
 import RenderList from "../RenderList/RenderList";
 import "./fileConverterManager.css";
+import { useTranslation } from "react-i18next";
+
 export default function FileConverterManager() {
+  const { t } = useTranslation();
   const {
     outputFileType,
     fileList,
@@ -20,7 +23,7 @@ export default function FileConverterManager() {
     <div className="file-converter-manager">
       <div className="file-selector">
         <TypeSelector
-          text="Convert to:"
+          text={t("typeSelector.convertTo") + ":"}
           onChange={(value) => setOutputFileType(value)}
           disabled={disabled}
           value={outputFileType}
@@ -34,7 +37,9 @@ export default function FileConverterManager() {
             onClick={convertFiles}
             disabled={disabled}
           >
-            {isConverting ? "Converting..." : "Convert"}
+            {isConverting
+              ? t("convertButton.converting")
+              : t("convertButton.convert")}
           </button>
           <button
             className="download-button"
@@ -45,7 +50,9 @@ export default function FileConverterManager() {
                 .length === 0
             }
           >
-            {isDownloading ? "Downloading..." : "Download"}
+            {isDownloading
+              ? t("downloadButton.downloading")
+              : t("downloadButton.download")}
           </button>
         </div>
       </div>
