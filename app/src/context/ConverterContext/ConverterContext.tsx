@@ -4,12 +4,13 @@ import {
   type ConversionType,
   type FileType,
 } from "../../types/fileTypes";
-import type { Conversion } from "../../types/Conversion";
+import type { Conversion, ConversionStatus } from "../../types/Conversion";
 import { useZipDownload } from "../../hooks/useZipDownload";
 import { convertFile } from "../../hooks/convertFile";
 
 type FileListsByType = Record<ConversionType, Conversion[]>;
 type OutputTypesByType = Record<ConversionType, FileType>;
+export type ConversionCounts = Record<ConversionStatus | "all", number>;
 
 interface ConverterContextType {
   fileList: Conversion[];
@@ -26,6 +27,7 @@ interface ConverterContextType {
   currentConversionType: ConversionType;
   changeCurrentConversionType: (type: ConversionType) => void;
   availableFileTypes: readonly FileType[];
+  getConversionCounts: () => Map<ConversionType, ConversionCounts>;
 }
 
 interface ConverterProviderProps {
@@ -197,6 +199,29 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
     setIsDownloading(false);
   };
 
+  const getConversionCounts = (): Map<ConversionType, ConversionCounts> => {
+    const map = new Map<ConversionType, ConversionCounts>();
+
+    (Object.keys(fileListsByType) as ConversionType[]).forEach((mediaType) => {
+      const conversions = fileListsByType[mediaType] ?? [];
+      const counts: ConversionCounts = {
+        pending: 0,
+        converting: 0,
+        completed: 0,
+        failed: 0,
+        all: conversions.length,
+      };
+
+      conversions.forEach((conversion) => {
+        counts[conversion.status] += 1;
+      });
+
+      map.set(mediaType, counts);
+    });
+
+    return map;
+  };
+
   return (
     <ConverterContext.Provider
       value={{
@@ -214,6 +239,7 @@ export const ConverterProvider: React.FC<ConverterProviderProps> = ({
         currentConversionType,
         changeCurrentConversionType,
         availableFileTypes,
+        getConversionCounts,
       }}
     >
       {children}

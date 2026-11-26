@@ -2,8 +2,11 @@ import { IoMdClose } from "react-icons/io";
 import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
 import DragDrop from "../DragDrop/DragDrop";
 import "./RenderList.css";
+import { useTranslation } from "react-i18next";
+import { ConversionStatusBadge } from "../ConversionStatusBadge/ConversionStatusBadge";
 
 export default function RenderList() {
+  const { t } = useTranslation();
   const { fileList, removeConversion } = useConverterContext();
   if (fileList.length === 0) {
     return (
@@ -17,10 +20,10 @@ export default function RenderList() {
       <table className="file-list-table">
         <thead>
           <tr>
-            <th>File Name</th>
-            <th>File Type</th>
-            <th>File Size</th>
-            <th>Status</th>
+            <th>{t("renderList.fileName")}</th>
+            <th>{t("renderList.fileType")}</th>
+            <th>{t("renderList.fileSize")}</th>
+            <th>{t("renderList.status")}</th>
             <th></th>
           </tr>
         </thead>
@@ -31,7 +34,7 @@ export default function RenderList() {
               <td>{convertion.inputFile.type}</td>
               <td>{(convertion.inputFile.size / 1024).toFixed(2)} KB</td>
               <td className={`status ${convertion.status}`}>
-                {convertion.status}
+                <ConversionStatusBadge status={convertion.status} />
               </td>
               <td>
                 <button

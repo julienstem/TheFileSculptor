@@ -79,6 +79,20 @@
   --heading: system-ui, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
+  --status-info-text: var(--color-text-active);
+  --status-info-bg: var(--bg-surface-active);
+  --status-info-border: var(--border-focus);
+
+  /* Statuts — Succès / Terminé */
+  --status-success-text: #15803d;
+  --status-success-bg: rgba(22, 163, 74, 0.12);
+  --status-success-border: rgba(22, 163, 74, 0.3);
+
+  /* Statuts — Erreur / Échec */
+  --status-error-text: #b91c1c;
+  --status-error-bg: rgba(220, 38, 38, 0.12);
+  --status-error-border: rgba(220, 38, 38, 0.3);
+
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light;
@@ -137,6 +151,21 @@
   --border-strong: var(--gray-700);
   --border-focus: var(--purple-450);
   --border-active: var(--purple-650);
+
+  /* Statuts — En cours (accent violet) */
+  --status-info-text: var(--color-text-active);
+  --status-info-bg: var(--bg-surface-active);
+  --status-info-border: var(--border-focus);
+
+  /* Statuts — Succès / Terminé */
+  --status-success-text: #4ade80;
+  --status-success-bg: rgba(74, 222, 128, 0.12);
+  --status-success-border: rgba(74, 222, 128, 0.28);
+
+  /* Statuts — Erreur / Échec */
+  --status-error-text: #f87171;
+  --status-error-bg: rgba(248, 113, 113, 0.12);
+  --status-error-border: rgba(248, 113, 113, 0.28);
 }
 
 *,
@@ -150,6 +179,8 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  font-family: var(--sans);
+  font-size: 1rem;
 }
 
 .highlighted-text {

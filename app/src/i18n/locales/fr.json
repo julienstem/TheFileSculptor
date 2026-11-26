@@ -17,5 +17,17 @@
   "downloadButton": {
     "download": "Télécharger",
     "downloading": "Téléchargement en cours..."
+  },
+  "renderList": {
+    "fileName": "Nom du fichier",
+    "fileSize": "Taille du fichier",
+    "fileType": "Type de fichier",
+    "status": "Statut"
+  },
+  "conversionStatusBadge": {
+    "pending": "En attente",
+    "converting": "Conversion...",
+    "completed": "Terminé",
+    "failed": "Erreur"
   }
 }

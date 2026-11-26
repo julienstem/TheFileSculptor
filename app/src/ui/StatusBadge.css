@@ -1,0 +1,62 @@
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface-subtle);
+  color: var(--color-text-secondary);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.status-badge--pending {
+  color: var(--color-text-secondary);
+  background-color: var(--bg-surface-subtle);
+  border-color: var(--border-subtle);
+}
+
+/* En cours */
+.status-badge--converting {
+  color: var(--status-info-text);
+  background-color: var(--status-info-bg);
+  border-color: var(--status-info-border);
+}
+
+/* Terminé */
+.status-badge--completed {
+  color: var(--status-success-text);
+  background-color: var(--status-success-bg);
+  border-color: var(--status-success-border);
+}
+
+/* Échec */
+.status-badge--failed {
+  color: var(--status-error-text);
+  background-color: var(--status-error-bg);
+  border-color: var(--status-error-border);
+}
+
+.status-badge__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+
+/* Animation de rotation pour l'icône de chargement */
+.status-badge__spinner {
+  animation: status-spin 0.9s linear infinite;
+}
+
+@keyframes status-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

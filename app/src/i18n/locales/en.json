@@ -17,5 +17,17 @@
   "downloadButton": {
     "download": "Download",
     "downloading": "Downloading..."
+  },
+  "renderList": {
+    "fileName": "File Name",
+    "fileSize": "File Size",
+    "fileType": "File Type",
+    "status": "Status"
+  },
+  "conversionStatusBadge": {
+    "pending": "Pending",
+    "converting": "Converting...",
+    "completed": "Completed",
+    "failed": "Failed"
   }
 }
