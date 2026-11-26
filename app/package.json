@@ -16,7 +16,7 @@
     "@ffmpeg/util": "^0.12.2",
     "i18next": "^27.2.7",
     "i18next-browser-languagedetector": "^8.3.1",
-    "jzip": "^1.0.0",
+    "jszip": "^3.10.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-drag-drop-files": "^3.1.0",
