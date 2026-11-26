@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import JSZip from "jszip";
+import JSZip, { type JSZipMetadata } from "jszip";
 
 interface UseZipDownloadOptions {
   /** Optional default name for the downloaded zip file (defaults to 'converted_files.zip') */
@@ -45,7 +45,7 @@ export const useZipDownload = (
         // 2. Generate the ZIP blob with progress updates
         const zipBlob = await zip.generateAsync(
           { type: "blob" },
-          (metadata) => {
+          (metadata: JSZipMetadata) => {
             setProgress(Math.round(metadata.percent));
           },
         );
