@@ -1,16 +1,13 @@
 import React, { useRef, type ChangeEvent } from "react";
-import { FILE_TYPES } from "../../types/fileTypes";
 import { IoMdAdd } from "react-icons/io";
 import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
 
-interface AudioFilePickerProps {
+interface FilePickerProps {
   disabled?: boolean;
 }
 
-export const AudioFilePicker: React.FC<AudioFilePickerProps> = ({
-  disabled,
-}) => {
-  const { addFile } = useConverterContext();
+export const FilePicker: React.FC<FilePickerProps> = ({ disabled }) => {
+  const { availableFileTypes: fileTypes, addFile } = useConverterContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleContainerClick = () => {
@@ -29,9 +26,9 @@ export const AudioFilePicker: React.FC<AudioFilePickerProps> = ({
     }
   };
 
-  const acceptedAudioTypes = FILE_TYPES.map(
-    (type) => `.${type.toLowerCase()}`,
-  ).join(",");
+  const acceptedTypes = fileTypes
+    .map((type) => `.${type.toLowerCase()}`)
+    .join(",");
 
   return (
     <div className="file-picker-wrapper">
@@ -39,12 +36,16 @@ export const AudioFilePicker: React.FC<AudioFilePickerProps> = ({
         type="file"
         ref={fileInputRef}
         onChange={handleFileChange}
-        accept={acceptedAudioTypes}
+        accept={acceptedTypes}
         multiple
         style={{ display: "none" }}
       />
 
-      <button className="icon-button" onClick={handleContainerClick} disabled={disabled}>
+      <button
+        className="icon-button"
+        onClick={handleContainerClick}
+        disabled={disabled}
+      >
         <IoMdAdd />
       </button>
     </div>

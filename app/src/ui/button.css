@@ -8,11 +8,12 @@
   cursor: pointer;
   width: 24px;
   height: 24px;
+  padding: 0.2rem;
 }
 
 .icon-button:hover {
-  background-color: var(--btn-hover-bg);
-  border: 1px solid var(--border-medium);
+  background-color: var(--btn-primary-hover);
+  border: 1px solid var(--btn-primary-hover);
   border-radius: 100%;
 }
 
@@ -22,7 +23,7 @@ button {
   border: 1px solid var(--border-medium);
   border-radius: 4px;
 
-  padding: 0.2rem;
+  padding: 0.4rem 0.65rem;
   cursor: pointer;
 }
 

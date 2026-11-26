@@ -1,0 +1,88 @@
+.theme-switch {
+  --switch-width: 64px;
+  --switch-height: 32px;
+  --thumb-size: 22px;
+  --switch-padding: 5px;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  padding: 0 9px;
+  background-color: var(--gray-850);
+  border: 2px solid var(--border-active);
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.2s ease;
+}
+
+.theme-switch:hover {
+  border-color: var(--border-focus);
+}
+
+.theme-switch:focus-visible {
+  outline: 2px solid var(--border-active);
+  outline-offset: 3px;
+}
+
+/* Icônes dans le track (cercle à gauche, lune à droite) */
+.theme-switch__icon {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  color: var(--gray-50);
+  opacity: 0.9;
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s ease,
+    color 0.2s ease;
+}
+
+.theme-switch__icon--sun {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--gray-50);
+}
+
+/* Pastille glissante */
+.theme-switch__thumb {
+  position: absolute;
+  top: 50%;
+  left: var(--switch-padding);
+  z-index: 2;
+  width: var(--thumb-size);
+  height: var(--thumb-size);
+  border-radius: 50%;
+  background-color: var(--gray-50);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transform: translate(0, -50%);
+  transition:
+    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 0.2s ease;
+}
+
+/* État mode sombre : la pastille glisse à droite */
+.theme-switch--dark .theme-switch__thumb {
+  transform: translate(
+    calc(var(--switch-width) - var(--thumb-size) - (var(--switch-padding) * 2)),
+    -50%
+  );
+}
+
+.theme-switch--dark {
+  background-color: var(--gray-900);
+}
+
+.theme-switch:active .theme-switch__thumb {
+  width: 25px;
+}

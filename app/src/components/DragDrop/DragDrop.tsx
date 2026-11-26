@@ -1,10 +1,15 @@
 import { FileUploader } from "react-drag-drop-files";
+import { useTranslation } from "react-i18next";
 import "./DragDrop.css";
-import { FILE_TYPES } from "../../types/fileTypes";
 import { useConverterContext } from "../../context/ConverterContext/ConverterContext";
 
 export default function DragDrop() {
-  const { addFile, outputFileType } = useConverterContext();
+  const { t } = useTranslation();
+  const {
+    availableFileTypes: fileTypes,
+    addFile,
+    outputFileType,
+  } = useConverterContext();
 
   const handleChange = (incomingFiles: File | FileList | File[]) => {
     let filesArray: File[] = [];
@@ -26,12 +31,16 @@ export default function DragDrop() {
         <FileUploader
           classes="drag-drop-file-uploader"
           handleChange={handleChange}
-          types={[...FILE_TYPES]}
+          types={fileTypes as string[]}
           multiple={true}
         >
           <div className="drag-drop-content">
-            <p>Drag and drop or click to select files to convert to </p>
-            <p>{outputFileType}</p>
+            <p>
+              {t("dragDrop.prompt")}{" "}
+              <span className="highlighted-text drag-drop-format">
+                {outputFileType}
+              </span>
+            </p>
           </div>
         </FileUploader>
       </div>

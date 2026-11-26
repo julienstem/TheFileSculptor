@@ -16,26 +16,38 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px dashed var(--border-subtle);
+  border: 2px dashed var(--border-medium);
   border-radius: 8px;
+}
+
+.drag-drop-container:hover,
+.drag-drop-container:has(.drag-drop-content:hover) {
+  border-color: var(--border-focus);
+  cursor: pointer;
 }
 
 .drag-drop-content {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  text-align: center;
+  padding: 0 1rem;
+  cursor: pointer;
+}
+
+.drag-drop-content p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.drag-drop-format {
+  white-space: nowrap;
+  margin-left: 0.25em;
 }
 
 .drag-drop-file-uploader {
   width: 100%;
   height: 100%;
-}
-
-.drag-drop-content:hover {
-  border-color: var(--border-medium);
-  cursor: pointer;
 }
